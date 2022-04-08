@@ -44,6 +44,9 @@ module "weather_app_aurora_mysql" {
   engine_version    = "5.7.mysql_aurora.2.07.1"
   storage_encrypted = true
 
+  replica_scale_enabled = false
+  replica_count         = 0
+
   subnets               = data.aws_subnets.all.ids
   vpc_id                = data.aws_vpc.default.id
   create_security_group = true
@@ -53,8 +56,8 @@ module "weather_app_aurora_mysql" {
   apply_immediately   = true
   skip_final_snapshot = true
 
-  db_parameter_group_name         = aws_db_parameter_group.example_mysql.id
-  db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.example_mysql.id
+  db_parameter_group_name         = aws_db_parameter_group.weather_app.id
+  db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.weather_app.id
 
   scaling_configuration = {
     auto_pause               = true
