@@ -41,6 +41,7 @@ module "weather_app_aurora_mysql" {
   name              = "${local.name}-mysql"
   engine            = "aurora-mysql"
   engine_mode       = "serverless"
+  engine_version    = "5.7.mysql_aurora.2.07.1"
   storage_encrypted = true
 
   subnets               = data.aws_subnets.all.ids
