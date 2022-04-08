@@ -65,13 +65,13 @@ module "weather_app_aurora_mysql" {
   }
 }
 
-resource "aws_db_parameter_group" "example_mysql" {
+resource "aws_db_parameter_group" "weather_app" {
   name        = "${local.name}-aurora-db-mysql-parameter-group"
   family      = "aurora-mysql5.7"
   description = "${local.name}-aurora-db-mysql-parameter-group"
 }
 
-resource "aws_rds_cluster_parameter_group" "example_mysql" {
+resource "aws_rds_cluster_parameter_group" "weather_app" {
   name        = "${local.name}-aurora-mysql-cluster-parameter-group"
   family      = "aurora-mysql5.7"
   description = "${local.name}-aurora-mysql-cluster-parameter-group"
