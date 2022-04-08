@@ -79,3 +79,17 @@ resource "aws_rds_cluster_parameter_group" "weather_app" {
   family      = "aurora-mysql5.7"
   description = "${local.name}-aurora-mysql-cluster-parameter-group"
 }
+
+resource "aws_secretsmanager_secret" "weather_app_db_credentials" {
+  name = "${local.name}-aurora-db-master-credentials"
+}
+
+resource "aws_secretsmanager_secret_version" "weather_app_db_credentials" {
+  secret_id     = aws_secretsmanager_secret.weather_app_db_credentials.id
+  secret_string = jsonencode(
+    {
+      username = module.weather_app_aurora_mysql.this_rds_cluster_master_username
+      password = module.weather_app_aurora_mysql.this_rds_cluster_master_password
+    }
+  )
+}
