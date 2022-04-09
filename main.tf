@@ -14,11 +14,12 @@ terraform {
   }
 }
 provider "aws" {
-  region = "us-east-1"
+  region = local.region
 }
 
 locals {
-  name = "weather-app"
+  name   = "weather-app"
+  region = "us-east-1"
 }
 
 data "aws_vpc" "default" {
@@ -34,6 +35,23 @@ data "aws_subnets" "all" {
   }
 }
 
+resource "aws_vpc_endpoint" "secrets_manager" {
+  vpc_id              = data.aws_vpc.default.id
+  service_name        = "com.amazonaws.${local.region}.secretsmanager"
+  vpc_endpoint_type   = "Interface"
+  private_dns_enabled = true
+
+  security_group_ids = [
+    aws_security_group.setup_lambda_sg.id,
+  ]
+}
+
+resource "aws_security_group" "setup_lambda_sg" {
+  name_prefix = "setup-lambda-"
+  vpc_id      = data.aws_vpc.default.id
+  description = "security group for the setup lambda"
+}
+
 module "weather_app_aurora_mysql" {
   source = "github.com/terraform-aws-modules/terraform-aws-rds-aurora?ref=v6.2.0"
 
@@ -46,6 +64,10 @@ module "weather_app_aurora_mysql" {
   subnets               = data.aws_subnets.all.ids
   vpc_id                = data.aws_vpc.default.id
   create_security_group = true
+
+  allowed_security_groups = [
+    aws_security_group.setup_lambda_sg.id
+  ]
 
   monitoring_interval = 60
 
