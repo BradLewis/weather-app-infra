@@ -31,8 +31,6 @@ module "weather_app_aurora_mysql" {
 }
 
 resource "aws_security_group_rule" "setup_lambda_to_db" {
-  count = length(var.allowed_security_group_ids)
-
   type                     = "egress"
   from_port                = 3306
   to_port                  = 3306
