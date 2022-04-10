@@ -35,6 +35,6 @@ resource "aws_security_group_rule" "vpc_endpoint_to_allowed" {
   from_port                = 443
   to_port                  = 443
   protocol                 = "tcp"
-  security_group_id        = var.allowed_security_group_ids[count.index]
-  source_security_group_id = var.vpc_endpoint_sg_id
+  security_group_id        = var.vpc_endpoint_sg_id
+  source_security_group_id = var.allowed_security_group_ids[count.index]
 }

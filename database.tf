@@ -44,3 +44,9 @@ resource "aws_secretsmanager_secret_version" "weather_app_db_credentials" {
     }
   )
 }
+
+resource "aws_ssm_parameter" "weather_app_db_credentials" {
+  name = "/${local.name}/aurora-db-master-credentials"
+  type = "String"
+  value = aws_secretsmanager_secret.weather_app_db_credentials.arn
+}
