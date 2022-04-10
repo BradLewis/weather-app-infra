@@ -30,6 +30,19 @@ module "weather_app_aurora_mysql" {
   }
 }
 
+resource "aws_security_group_rule" "setup_lambda_to_db" {
+  count = length(var.allowed_security_group_ids)
+
+  type                     = "egress"
+  from_port                = 3306
+  to_port                  = 3306
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.setup_lambda_sg.id
+  source_security_group_id = module.weather_app_aurora_mysql.security_group_id
+
+  depends_on = [module.weather_app_aurora_mysql]
+}
+
 resource "aws_secretsmanager_secret" "weather_app_db_credentials" {
   name = "${local.name}-aurora-db-master-credentials"
 }
@@ -46,7 +59,7 @@ resource "aws_secretsmanager_secret_version" "weather_app_db_credentials" {
 }
 
 resource "aws_ssm_parameter" "weather_app_db_credentials" {
-  name = "/${local.name}/aurora-db-master-credentials"
-  type = "String"
+  name  = "/${local.name}/aurora-db-master-credentials"
+  type  = "String"
   value = aws_secretsmanager_secret.weather_app_db_credentials.arn
 }

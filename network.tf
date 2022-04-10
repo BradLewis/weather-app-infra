@@ -3,7 +3,7 @@ resource "aws_security_group" "vpc_endpoint_sg" {
   name_prefix = "vpc-endpoint-"
   vpc_id      = data.aws_vpc.default.id
   description = "security group for accessing VPC endpoints"
-  tags       = {
+  tags = {
     Name = "vpc-endpoint"
   }
 }
@@ -12,7 +12,7 @@ resource "aws_security_group" "setup_lambda_sg" {
   name_prefix = "setup-lambda-"
   vpc_id      = data.aws_vpc.default.id
   description = "security group for the setup lambda"
-  tags       = {
+  tags = {
     Name = "setup-lambda"
   }
 }
