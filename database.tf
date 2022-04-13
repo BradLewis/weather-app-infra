@@ -53,7 +53,7 @@ resource "aws_security_group_rule" "weather_api_lambda_to_db" {
 }
 
 resource "aws_secretsmanager_secret" "weather_app_db_credentials" {
-  name = "${local.name}-aurora-db-master-credentials"
+  name = "/${local.name}/aurora-db-master-credentials"
 }
 
 resource "aws_secretsmanager_secret_version" "weather_app_db_credentials" {
