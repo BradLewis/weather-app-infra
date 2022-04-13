@@ -13,7 +13,8 @@ module "weather_app_aurora_mysql" {
   create_security_group = true
 
   allowed_security_groups = [
-    aws_security_group.setup_lambda_sg.id
+    aws_security_group.setup_lambda_sg.id,
+    aws_security_group.weather_api_lambda.id
   ]
 
   monitoring_interval = 60
