@@ -17,6 +17,15 @@ resource "aws_security_group" "setup_lambda_sg" {
   }
 }
 
+resource "aws_security_group" "weather_api_lambda" {
+  name_prefix = "weather-api-lambda-"
+  vpc_id      = data.aws_vpc.default.id
+  description = "security group for the weather api lambda"
+  tags = {
+    Name = "weather-api-lambda"
+  }
+}
+
 module "secretsmanager_vpc_endpoint" {
   source = "./modules/vpc-endpoint"
 
@@ -29,6 +38,7 @@ module "secretsmanager_vpc_endpoint" {
   subnet_ids          = data.aws_subnets.all.ids
 
   allowed_security_group_ids = [
-    aws_security_group.setup_lambda_sg.id
+    aws_security_group.setup_lambda_sg.id,
+    aws_security_group.weather_api_lambda.id
   ]
 }
