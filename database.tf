@@ -31,23 +31,12 @@ module "weather_app_aurora_mysql" {
   }
 }
 
-resource "aws_security_group_rule" "setup_lambda_to_db" {
+resource "aws_security_group_rule" "to_weather_db" {
   type                     = "egress"
   from_port                = 3306
   to_port                  = 3306
   protocol                 = "tcp"
-  security_group_id        = aws_security_group.setup_lambda_sg.id
-  source_security_group_id = module.weather_app_aurora_mysql.security_group_id
-
-  depends_on = [module.weather_app_aurora_mysql]
-}
-
-resource "aws_security_group_rule" "weather_api_lambda_to_db" {
-  type                     = "egress"
-  from_port                = 3306
-  to_port                  = 3306
-  protocol                 = "tcp"
-  security_group_id        = aws_security_group.weather_api_lambda.id
+  security_group_id        = aws_security_group.weather_db_sg.id
   source_security_group_id = module.weather_app_aurora_mysql.security_group_id
 
   depends_on = [module.weather_app_aurora_mysql]
