@@ -4,8 +4,9 @@ resource "aws_apigatewayv2_api" "weather_app_api" {
 }
 
 resource "aws_apigatewayv2_stage" "weather_app_stage" {
-  api_id = aws_apigatewayv2_api.weather_app_api.id
-  name   = "$default"
+  api_id      = aws_apigatewayv2_api.weather_app_api.id
+  name        = "$default"
+  auto_deploy = true
 }
 
 resource "aws_ssm_parameter" "api_id" {
