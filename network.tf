@@ -17,15 +17,6 @@ resource "aws_security_group" "weather_db_sg" {
   }
 }
 
-resource "aws_security_group" "vpc_endpoint_sg" {
-  name_prefix = "vpc-endpoint-"
-  vpc_id      = data.aws_vpc.default.id
-  description = "security group for the vpc endpoints"
-  tags = {
-    Name = "vpc-endpoint"
-  }
-}
-
 module "ssm_vpc_endpoint" {
   source = "./modules/vpc-endpoint"
 
