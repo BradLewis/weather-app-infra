@@ -2,8 +2,8 @@ module "stations_table" {
   source = "terraform-aws-modules/dynamodb-table/aws"
 
   name      = "Stations"
-  hash_key  = "id"
-  range_key = "name"
+  hash_key  = "Id"
+  range_key = "Name"
 
   attributes = [
     {
@@ -12,7 +12,6 @@ module "stations_table" {
     },
     {
       name = "Name"
-      type = "S"
-    }
+    type = "S" }
   ]
 }
