@@ -7,11 +7,11 @@ module "stations_table" {
 
   attributes = [
     {
-      name = "id"
+      name = "Id"
       type = "N"
     },
     {
-      name = "name"
+      name = "Name"
       type = "S"
     }
   ]
