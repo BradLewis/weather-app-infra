@@ -22,3 +22,9 @@ module "stations_table" {
     non_key_attributes = ["id"]
   }]
 }
+
+resource "aws_ssm_parameter" "stations_table_arn" {
+  name  = "/${local.name}/stations-table-arn"
+  type  = "String"
+  value = module.stations_table.dynamodb_table_arn
+}
