@@ -14,4 +14,11 @@ module "stations_table" {
       name = "Name"
     type = "S" }
   ]
+
+  global_secondary_indexes = [{
+    name               = "NameIndex"
+    hash_key           = "Name"
+    projection_type    = "INCLUDE"
+    non_key_attributes = ["id"]
+  }]
 }
